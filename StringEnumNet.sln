@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StringEnumNet", "StringEnumNet\StringEnumNet.csproj", "{A8CC6423-A158-417A-AEB3-62D3129517F0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StringEnumNet.Tests", "StringEnumNet.Tests\StringEnumNet.Tests.csproj", "{0B2964E8-99EA-480F-B0EE-AB12F4928F11}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{A8CC6423-A158-417A-AEB3-62D3129517F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A8CC6423-A158-417A-AEB3-62D3129517F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A8CC6423-A158-417A-AEB3-62D3129517F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B2964E8-99EA-480F-B0EE-AB12F4928F11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B2964E8-99EA-480F-B0EE-AB12F4928F11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B2964E8-99EA-480F-B0EE-AB12F4928F11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B2964E8-99EA-480F-B0EE-AB12F4928F11}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

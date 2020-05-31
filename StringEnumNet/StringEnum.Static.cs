@@ -9,17 +9,29 @@ namespace StringEnumNet
         
         protected static T Define(string value)
         {
+            return DefineInternal(value);
+        }
+
+        // Used for testing purpose.
+        internal static T DefineInternal(string value)
+        {
             DefinedValues.Add(value);
             return new T { value = value };
         }
         
         public static bool IsDefined(string value)
         {
+            // TODO; Verify if value was already defined.
             return DefinedValues.Contains(value);
         }
 
         public static T Parse(string value)
         {
+            if (string.IsNullOrEmpty(value))
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+            
             if (IsDefined(value))
             {
                 return new T { value = value };
