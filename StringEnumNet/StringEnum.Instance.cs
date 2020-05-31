@@ -1,38 +1,42 @@
-﻿namespace StringEnumNet
+﻿using System;
+
+namespace StringEnumNet
 {
-    public partial class StringEnum<T>
+    public abstract partial class StringEnum<T> : IEquatable<T>
         where T : StringEnum<T>, new()
     {
+        // Is shouldn't be possible to change value or hashCode after they are defined.
         private string value;
+        private int hashCode;
+
+        public bool Equals(T other)
+        {
+            return value == other?.value;
+        }
+
+        public override bool Equals(object? other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            return other.GetType() == GetType() && Equals((T)other);
+        }
 
         public override string ToString()
         {
             return value;
         }
 
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj))
-            {
-                return false;
-            }
-            
-            if (ReferenceEquals(this, obj))
-            {
-                return true;
-            }
-
-            if (obj.GetType() != GetType())
-            {
-                return false;
-            }
-            
-            return value == ((StringEnum<T>)obj).value;
-        }
-
         public override int GetHashCode()
         {
-            return value != null ? value.GetHashCode() : 0;
+            return hashCode;
         }
     }
 }

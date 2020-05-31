@@ -7,26 +7,8 @@ namespace StringEnumNet
     {
         private static readonly HashSet<string> DefinedValues = new HashSet<string>();
         
-        protected static T Define(string value)
-        {
-            return DefineInternal(value);
-        }
-
-        // Used for testing purpose only.
-        internal static T DefineInternal(string value)
-        {
-            if (string.IsNullOrEmpty(value))
-            {
-                throw new ArgumentNullException(nameof(value));
-            }
-
-            DefinedValues.Add(value);
-            return new T { value = value };
-        }
-        
         public static bool IsDefined(string value)
         {
-            // TODO; Verify if value was already defined.
             return DefinedValues.Contains(value);
         }
 
@@ -43,7 +25,7 @@ namespace StringEnumNet
             }
             
             throw new ArgumentOutOfRangeException(
-                nameof(value), $"String enum value '{value}' is not defined in the {typeof(T)}");
+                nameof(value), $"The value '{value}' is not defined in the {typeof(T)}");
         }
 
         public static bool TryParse(string value, out string stringEnum)
@@ -58,14 +40,53 @@ namespace StringEnumNet
             return false;
         }
         
-        public static implicit operator string(StringEnum<T> stringEnum)
+        public static implicit operator string(StringEnum<T> stringEnum) => stringEnum.ToString();
+
+        public static explicit operator StringEnum<T>(string value) => Parse(value);
+
+        public static bool operator ==(StringEnum<T> stringEnum1, StringEnum<T> stringEnum2)
+            => stringEnum1?.value == stringEnum2?.value;
+
+        public static bool operator !=(StringEnum<T> stringEnum1, StringEnum<T> stringEnum2)
+            => stringEnum1?.value != stringEnum2?.value;
+        
+        public static bool operator ==(StringEnum<T> stringEnum1, string value2)
+            => stringEnum1?.value == value2;
+        
+        public static bool operator !=(StringEnum<T> stringEnum1, string value2)
+            => stringEnum1?.value != value2;
+        
+        public static bool operator ==(string value1, StringEnum<T> stringEnum2)
+            => value1 == stringEnum2?.value;
+        
+        public static bool operator !=(string value1, StringEnum<T> stringEnum2)
+            => value1 != stringEnum2?.value;
+
+        protected static T Define(string value)
         {
-            return stringEnum.ToString();
+            return DefineInternal(value);
         }
         
-        public static explicit operator StringEnum<T>(string value)
+        // Used for testing purpose only.
+        internal static T DefineInternal(string value)
         {
-            return Parse(value);
+            if (string.IsNullOrEmpty(value))
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+            
+            if (DefinedValues.Contains(value))
+            {
+                throw new InvalidOperationException($"The value '{value}' is already defined in the {typeof(T)}");
+            }
+
+            DefinedValues.Add(value);
+
+            return new T
+                   {
+                       value = value,
+                       hashCode = (typeof(T).FullName + value).GetHashCode()
+                   };
         }
     }
 }
