@@ -12,9 +12,14 @@ namespace StringEnumNet
             return DefineInternal(value);
         }
 
-        // Used for testing purpose.
+        // Used for testing purpose only.
         internal static T DefineInternal(string value)
         {
+            if (string.IsNullOrEmpty(value))
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
             DefinedValues.Add(value);
             return new T { value = value };
         }
