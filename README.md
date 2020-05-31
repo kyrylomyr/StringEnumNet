@@ -17,6 +17,16 @@ public class Orientation : StringEnum<Orientation>
 
 # Usage
 
+## Equality
+
+`StringEnum` supports equality operator to compare its values, and to compare them with `string`:
+
+```csharp
+string inputValue = "South direction";
+if (inputValue == Orientation.South)
+    ...
+```
+
 ## Switch statement
 
 C# supports only constants in the `switch` cases. Because of this the `StringEnum` can be used only in the `switch expression` within the `when` clause:
