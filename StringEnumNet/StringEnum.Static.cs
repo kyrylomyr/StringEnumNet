@@ -5,11 +5,16 @@ namespace StringEnumNet
 {
     public partial class StringEnum<T>
     {
-        private static readonly HashSet<string> DefinedValues = new HashSet<string>();
-        
+        private static readonly Dictionary<string, T> DefinedValues = new Dictionary<string, T>();
+
         public static bool IsDefined(string value)
         {
-            return DefinedValues.Contains(value);
+            if (string.IsNullOrEmpty(value))
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
+            return DefinedValues.ContainsKey(value);
         }
 
         public static T Parse(string value)
@@ -18,75 +23,91 @@ namespace StringEnumNet
             {
                 throw new ArgumentNullException(nameof(value));
             }
-            
-            if (IsDefined(value))
+
+            if (TryParse(value, out var stringEnum))
             {
-                return new T { value = value };
+                return stringEnum;
             }
-            
-            throw new ArgumentOutOfRangeException(
-                nameof(value), $"The value '{value}' is not defined in the {typeof(T)}");
+
+            throw new ArgumentException(nameof(value), $"The value '{value}' is not defined in the {typeof(T)}");
         }
 
-        public static bool TryParse(string value, out string stringEnum)
+        public static bool TryParse(string value, out T stringEnum)
         {
-            if (IsDefined(value))
+            if (string.IsNullOrEmpty(value))
             {
-                stringEnum = new T { value = value };
-                return true;
+                throw new ArgumentNullException(nameof(value));
             }
 
-            stringEnum = null;
-            return false;
+            return DefinedValues.TryGetValue(value, out stringEnum);
         }
-        
-        public static implicit operator string(StringEnum<T> stringEnum) => stringEnum.ToString();
 
-        public static explicit operator StringEnum<T>(string value) => Parse(value);
+        public static implicit operator string(StringEnum<T> stringEnum)
+            => stringEnum?.ToString();
+
+        public static explicit operator StringEnum<T>(string value)
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                return null;
+            }
+            
+            if (TryParse(value, out var stringEnum))
+            {
+                return stringEnum;
+            }
+            
+            throw new InvalidCastException($"Can't cast string to {typeof(T)} because the value '{value}' is not defined");
+        }
 
         public static bool operator ==(StringEnum<T> stringEnum1, StringEnum<T> stringEnum2)
             => stringEnum1?.value == stringEnum2?.value;
 
         public static bool operator !=(StringEnum<T> stringEnum1, StringEnum<T> stringEnum2)
             => stringEnum1?.value != stringEnum2?.value;
-        
+
         public static bool operator ==(StringEnum<T> stringEnum1, string value2)
             => stringEnum1?.value == value2;
-        
+
         public static bool operator !=(StringEnum<T> stringEnum1, string value2)
             => stringEnum1?.value != value2;
-        
+
         public static bool operator ==(string value1, StringEnum<T> stringEnum2)
             => value1 == stringEnum2?.value;
-        
+
         public static bool operator !=(string value1, StringEnum<T> stringEnum2)
             => value1 != stringEnum2?.value;
 
         protected static T Define(string value)
         {
-            return DefineInternal(value);
-        }
-        
-        // Used for testing purpose only.
-        internal static T DefineInternal(string value)
-        {
             if (string.IsNullOrEmpty(value))
             {
                 throw new ArgumentNullException(nameof(value));
             }
-            
-            if (DefinedValues.Contains(value))
+
+            if (DefinedValues.ContainsKey(value))
             {
                 throw new InvalidOperationException($"The value '{value}' is already defined in the {typeof(T)}");
             }
 
-            DefinedValues.Add(value);
+            var stringEnum = new T
+                             {
+                                 value = value,
 
-            return new T
-                   {
-                       value = value,
-                       hashCode = (typeof(T).FullName + value).GetHashCode()
-                   };
+                                 // Add the type name to the actual value to make the hash code for the same string value
+                                 // unique across different enum types.
+                                 hashCode = (typeof(T).FullName + value).GetHashCode()
+                             };
+
+            DefinedValues.Add(value, stringEnum);
+
+            return stringEnum;
+        }
+
+        // Used for testing only.
+        internal static T DefineInternal(string value)
+        {
+            return Define(value);
         }
     }
 }

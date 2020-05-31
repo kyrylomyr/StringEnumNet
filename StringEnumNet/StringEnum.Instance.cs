@@ -14,7 +14,7 @@ namespace StringEnumNet
             return value == other?.value;
         }
 
-        public override bool Equals(object? other)
+        public override bool Equals(object other)
         {
             if (ReferenceEquals(null, other))
             {
