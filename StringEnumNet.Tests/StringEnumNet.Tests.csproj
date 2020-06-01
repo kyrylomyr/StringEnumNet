@@ -19,4 +19,8 @@
       <ProjectReference Include="..\StringEnumNet\StringEnumNet.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="TestResults\**" />
+    </ItemGroup>
+
 </Project>
