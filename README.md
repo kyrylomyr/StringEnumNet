@@ -3,7 +3,7 @@ A C# enumeration type defined by a set of named string constants that supports a
 
 ![build](https://github.com/kyrylomyr/StringEnumNet/workflows/build/badge.svg?branch=master)
 [![coverage](https://coveralls.io/repos/github/kyrylomyr/StringEnumNet/badge.svg?branch=master)](https://coveralls.io/github/kyrylomyr/StringEnumNet?branch=master)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/kyrylomyr/StringEnumNet/blob/master/LICENSE)
+[![license](https://img.shields.io/badge/license-MIT-brightgreen)](https://github.com/kyrylomyr/StringEnumNet/blob/master/LICENSE)
 
 # Definition
 
