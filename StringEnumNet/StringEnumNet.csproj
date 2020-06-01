@@ -5,8 +5,20 @@
         <LangVersion>8</LangVersion>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <PackageId>StringEnumNet</PackageId>
+        <Version>1.0.0</Version>
+        <Authors>Kyrylo Myroshnychenko</Authors>
+        <Title>String Enum .NET</Title>
+        <ProjectUrl>https://github.com/kyrylomyr/StringEnumNet</ProjectUrl>
+        <PackageTags>dotnet enum string stringenum</PackageTags>
+        <Description>An implementation of the C# enumeration type defined by a set of named string constants that supports all common features of the native enum type.</Description>
+    </PropertyGroup>
+
     <ItemGroup>
-      <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.0.0" />
+      <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.0.0">
+          <PrivateAssets>All</PrivateAssets>
+      </PackageReference>
     </ItemGroup>
 
 </Project>
