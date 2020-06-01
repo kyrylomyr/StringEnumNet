@@ -5,13 +5,13 @@ namespace StringEnumNet
     public abstract partial class StringEnum<T> : IEquatable<T>
         where T : StringEnum<T>, new()
     {
-        // Is shouldn't be possible to change value or hashCode after they are defined.
-        private string value;
+        // Is shouldn't be possible to change stringValue or hashCode after they are defined.
+        private string stringValue;
         private int hashCode;
 
         public bool Equals(T other)
         {
-            return value == other?.value;
+            return stringValue == other?.stringValue;
         }
 
         public override bool Equals(object other)
@@ -31,7 +31,7 @@ namespace StringEnumNet
 
         public override string ToString()
         {
-            return value;
+            return stringValue;
         }
 
         public override int GetHashCode()
