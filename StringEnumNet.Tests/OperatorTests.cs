@@ -22,10 +22,32 @@ namespace StringEnumNet.Tests
 
         [Test]
         [TestCaseSource(nameof(EqualityOperatorBothStringEnumsTestCases))]
-        public void EqualityOperator_When_bothArgumentsAreStringEnums_Should_returnExpectedValue(
+        public void EqualityOperator_When_bothArgumentsAreStringEnums_Should_beExpectedEquality(
             Orientation stringEnum1, Orientation stringEnum2, bool expectedEquality)
         {
             var areEqual = stringEnum1 == stringEnum2;
+
+            areEqual.Should().Be(expectedEquality);
+        }
+        
+        public static IEnumerable<TestCaseData> NotEqualityOperatorBothStringEnumsTestCases
+        {
+            get
+            {
+                yield return new TestCaseData(null, null, false);
+                yield return new TestCaseData(Orientation.North, null, true);
+                yield return new TestCaseData(null, Orientation.South, true);
+                yield return new TestCaseData(Orientation.East, Orientation.West, true);
+                yield return new TestCaseData(Orientation.North, Orientation.North, false);
+            }
+        }
+        
+        [Test]
+        [TestCaseSource(nameof(NotEqualityOperatorBothStringEnumsTestCases))]
+        public void NotEqualityOperator_When_bothArgumentsAreStringEnums_Should_beExpectedEquality(
+            Orientation stringEnum1, Orientation stringEnum2, bool expectedEquality)
+        {
+            var areEqual = stringEnum1 != stringEnum2;
 
             areEqual.Should().Be(expectedEquality);
         }
@@ -44,10 +66,32 @@ namespace StringEnumNet.Tests
 
         [Test]
         [TestCaseSource(nameof(EqualityOperatorStringEnumAndStringTestCases))]
-        public void EqualityOperator_When_stringEnumAndStringArguments_Should_returnExpectedValue(
+        public void EqualityOperator_When_stringEnumAndStringArguments_Should_beExpectedEquality(
             Orientation stringEnum, string stringValue, bool expectedEquality)
         {
             var areEqual = stringEnum == stringValue;
+
+            areEqual.Should().Be(expectedEquality);
+        }
+        
+        public static IEnumerable<TestCaseData> NotEqualityOperatorStringEnumAndStringTestCases
+        {
+            get
+            {
+                yield return new TestCaseData(null, null, false);
+                yield return new TestCaseData(Orientation.North, null, true);
+                yield return new TestCaseData(null, "South orientation", true);
+                yield return new TestCaseData(Orientation.East, "West orientation", true);
+                yield return new TestCaseData(Orientation.North, "North orientation", false);
+            }
+        }
+
+        [Test]
+        [TestCaseSource(nameof(NotEqualityOperatorStringEnumAndStringTestCases))]
+        public void NotEqualityOperator_When_stringEnumAndStringArguments_Should_beExpectedEquality(
+            Orientation stringEnum, string stringValue, bool expectedEquality)
+        {
+            var areEqual = stringEnum != stringValue;
 
             areEqual.Should().Be(expectedEquality);
         }
@@ -66,10 +110,32 @@ namespace StringEnumNet.Tests
 
         [Test]
         [TestCaseSource(nameof(EqualityOperatorStringAndStringEnumTestCases))]
-        public void EqualityOperator_When_stringEnumAndStringArguments_Should_returnExpectedValue(
+        public void EqualityOperator_When_stringAndStringEnumArguments_Should_beExpectedEquality(
             string stringValue, Orientation stringEnum, bool expectedEquality)
         {
             var areEqual = stringValue == stringEnum;
+
+            areEqual.Should().Be(expectedEquality);
+        }
+        
+        public static IEnumerable<TestCaseData> NotEqualityOperatorStringAndStringEnumTestCases
+        {
+            get
+            {
+                yield return new TestCaseData(null, null, false);
+                yield return new TestCaseData("North orientation", null, true);
+                yield return new TestCaseData(null, Orientation.South, true);
+                yield return new TestCaseData("West orientation", Orientation.East, true);
+                yield return new TestCaseData("North orientation", Orientation.North, false);
+            }
+        }
+
+        [Test]
+        [TestCaseSource(nameof(NotEqualityOperatorStringAndStringEnumTestCases))]
+        public void NotEqualityOperator_When_stringAndStringEnumArguments_Should_beExpectedEquality(
+            string stringValue, Orientation stringEnum, bool expectedEquality)
+        {
+            var areEqual = stringValue != stringEnum;
 
             areEqual.Should().Be(expectedEquality);
         }
@@ -104,7 +170,7 @@ namespace StringEnumNet.Tests
         
         [Test]
         [TestCaseSource(nameof(ExplicitConversionValidStringValueTestCases))]
-        public void ExplicitConversion_When_validStringValue_Should_returnExpectedStringEnum(
+        public void ExplicitConversion_When_validStringValue_Should_beExpectedEqualityStringEnum(
             string stringValue, Orientation expectedStringEnum)
         {
             Orientation stringEnum = (Orientation)stringValue;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace StringEnumNet
 {
@@ -7,6 +8,13 @@ namespace StringEnumNet
     {
         private static readonly Dictionary<string, T> DefinedValues = new Dictionary<string, T>();
 
+        static StringEnum()
+        {
+            // Force a constructor of the derived class to execute.
+            // As a result, all static fields will be executed, and all string enum values will be defined.
+            RuntimeHelpers.RunClassConstructor(typeof(T).TypeHandle);
+        }
+        
         public static bool IsDefined(string value)
         {
             if (string.IsNullOrEmpty(value))
