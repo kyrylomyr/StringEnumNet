@@ -13,6 +13,8 @@
         <ProjectUrl>https://github.com/kyrylomyr/StringEnumNet</ProjectUrl>
         <PackageTags>dotnet enum string stringenum</PackageTags>
         <Description>An implementation of the C# enumeration type defined by a set of named string constants that supports all common features of the native enum type.</Description>
+        <IncludeSymbols>True</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     </PropertyGroup>
 
     <ItemGroup>

@@ -1,4 +1,4 @@
-name: build
+name: deploy
 
 on:
   push:
@@ -24,5 +24,15 @@ jobs:
     - name: Test
       run: dotnet test
 
-    - name: Publish
-      run: dotnet publish
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Pack
+      run: dotnet pack --configuration Release
+
+    - name: Push
+      run: dotnet nuget push **/*.nupkg
+           --api-key ${{ secrets.NUGET_KEY }}
+           --source https://api.nuget.org/v3/index.json
