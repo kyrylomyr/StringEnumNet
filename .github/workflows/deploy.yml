@@ -24,11 +24,6 @@ jobs:
     - name: Test
       run: dotnet test
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
     - name: Pack
       run: dotnet pack --configuration Release
 
